@@ -11,6 +11,7 @@
 #define IIC_TRANS_OK 0
 
 
+
 #define SET_CLK setPin(IIC_SCL)
 #define CLR_CLK clrPin(IIC_SCL)
 
