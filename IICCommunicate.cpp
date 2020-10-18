@@ -7,6 +7,8 @@
 #include"IICCommunicate.h"
 
 
+
+
 /**
  * Funcation Name:IIC_C
  * Para:byte TranslateType 规定传输方式，MSB/LSB
