@@ -1,11 +1,17 @@
 #ifndef _MACROUTILLS_H_
 #define _MACROUTILLS_H_
 
-
+/**
+ * 本文件定义了宏常量和宏函数
+ * Author:sedev_home1896@163.com
+ * License:MPL V2.0
+*/
 
 #include"Arduino.h"
 
-#define DEBUG
+
+#define IIC_DEBUG//调试开关
+
 
 //data type define by self
 #define PinNum unsigned char

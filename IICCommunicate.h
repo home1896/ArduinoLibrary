@@ -1,10 +1,12 @@
 /**
  * Author:sedev_home1896@163.com
  * License:MPL V2.0
+ * 注：该库只支持8bit的地址
 */
+
+
 #ifndef _IICCOMMUNICATE_H_
 #define _IICCOMMUNICATE_H_
-//仅支持8bit地址IIC设备
 #include"MacroUtills.h"
 
 #define IIC_TIME_OUT 1

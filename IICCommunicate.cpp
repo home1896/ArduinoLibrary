@@ -113,7 +113,7 @@ bool IIC_C::IIC_Ack2Master()
     }
     CLR_CLK;
     pinModeOut(IIC_SDA);
-    #ifdef DEBUG
+    #ifdef IIC_DEBUG
     if(flag==IIC_TIME_OUT) Serial.println(i);
     else Serial.println("Success");
     #endif
@@ -130,7 +130,7 @@ bool IIC_C::IIC_Ack2Master()
 */
 void IIC_C::IIC_Read_MSB(byte *data)
 {
-    #ifdef DEBUG
+    #ifdef IIC_DEBUG
         Serial.println("MSB_READ_START");
     #endif
     CLR_CLK;
@@ -144,13 +144,13 @@ void IIC_C::IIC_Read_MSB(byte *data)
         rbit=getPin(IIC_SDA);
         recv=(recv<<1)|rbit;
         CLR_CLK;
-        #ifdef DEBUG
+        #ifdef IIC_DEBUG
             Serial.println(rbit);
         #endif
     }
     *data=recv;
     pinModeOut(IIC_SDA);
-    #ifdef DEBUG
+    #ifdef IIC_DEBUG
         Serial.println("MSB_READ_END");
     #endif
     return;
@@ -165,7 +165,7 @@ void IIC_C::IIC_Read_MSB(byte *data)
 */
 void IIC_C::IIC_Write_MSB(byte data)
 {
-    #ifdef DEBUG
+    #ifdef IIC_DEBUG
     Serial.println("MSB_WRITE_START");
     #endif
     CLR_CLK;
@@ -179,11 +179,11 @@ void IIC_C::IIC_Write_MSB(byte data)
         SET_CLK;
         delayUs(2);
         CLR_CLK;
-        #ifdef DEBUG
+        #ifdef IIC_DEBUG
         Serial.println(sbit);
         #endif
     }
-    #ifdef DEBUG
+    #ifdef IIC_DEBUG
        Serial.println("MSB_WRITE_END");
     #endif
     return;
@@ -199,7 +199,7 @@ void IIC_C::IIC_Write_MSB(byte data)
 */
 void IIC_C::IIC_Read_LSB(byte *data)
 {
-    #ifdef DEBUG
+    #ifdef IIC_DEBUG
         Serial.println("LSB_REDA");
     #endif
     CLR_CLK;
@@ -214,13 +214,13 @@ void IIC_C::IIC_Read_LSB(byte *data)
         recv|=(rbit<<7);
         recv>>=1;
         CLR_CLK;
-        #ifdef DEBUG
+        #ifdef IIC_DEBUG
         Serial.println(recv);
         #endif
     }
     *data=recv;
     pinModeOut(IIC_SDA);
-    #ifdef DEBUG
+    #ifdef IIC_DEBUG
         Serial.println("LSB_READ_END");
     #endif
     return;
@@ -235,7 +235,7 @@ void IIC_C::IIC_Read_LSB(byte *data)
 */
 void IIC_C::IIC_Write_LSB(byte data)
 {
-    #ifdef DEBUG
+    #ifdef IIC_DEBUG
         Serial.println("LSB_WRITE_START");
     #endif
     CLR_CLK;
@@ -249,11 +249,11 @@ void IIC_C::IIC_Write_LSB(byte data)
         SET_CLK;
         delayUs(2);
         CLR_CLK;
-        #ifdef DEBUG
+        #ifdef IIC_DEBUG
         Serial.println(sbit);
         #endif
     }
-    #ifdef DEBUG
+    #ifdef IIC_DEBUG
         Serial.println("LSB_WRITE_END");
     #endif
     return;
