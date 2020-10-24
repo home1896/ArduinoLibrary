@@ -15,12 +15,12 @@
  *      PinNum scl         规定时钟信号引脚
  *      PinNum sda         规定数据线引脚
  *      bool   READValue   读命令的电平，写命令则与其相反
- *      byte   salveAdd    从机地址，除最后一位
+ *      byte   slaveAdd    从机地址，除最后一位
  * Result:void
  * Funcation description:构造函数
  * 该函数用于初始化IIC通讯标准
 */
-IIC_C::IIC_C(byte TranslateType,PinNum scl,PinNum sda,bool READValue,byte SalveAdd)
+IIC_C::IIC_C(byte TranslateType,PinNum scl,PinNum sda,bool READValue,byte SlaveAdd)
 {
     if(TranslateType==MSB)
     {
@@ -38,7 +38,7 @@ IIC_C::IIC_C(byte TranslateType,PinNum scl,PinNum sda,bool READValue,byte SalveA
     pinModeOut(IIC_SDA);
     SET_CLK;
     SET_SDA;
-    IIC_Salve_Address=SalveAdd<<1;
+    IIC_Slave_Address=SlaveAdd<<1;
     READ_INVALID=READValue==true?0x01:0x00;
 }
 
@@ -114,7 +114,7 @@ bool IIC_C::IIC_Ack2Master()
     CLR_CLK;
     pinModeOut(IIC_SDA);
     #ifdef IIC_DEBUG
-    if(flag==IIC_TIME_OUT) Serial.println(i);
+    if(flag==IIC_TIME_OUT) Serial.println("Time Out!");
     else Serial.println("Success");
     #endif
     return flag;
@@ -271,7 +271,7 @@ bool IIC_C::IICRecvByte(byte *data)
 {
     bool flag=false;
     IIC_Start();
-    (this->*IIC_C::IIC_SendByte)(this->IIC_Salve_Address|(READ_INVALID==0x01?1:0));
+    (this->*IIC_C::IIC_SendByte)(this->IIC_Slave_Address|(READ_INVALID==0x01?1:0));
     flag=IIC_Ack2Master();
     if(flag==IIC_TIME_OUT)
     {
@@ -297,7 +297,7 @@ bool IIC_C::IICTranByte(byte data)
 {
     bool flag=false;
     IIC_Start();
-    (this->*IIC_C::IIC_SendByte)((byte)(this->IIC_Salve_Address|(READ_INVALID==0x01?0:1)));
+    (this->*IIC_C::IIC_SendByte)((byte)(this->IIC_Slave_Address|(READ_INVALID==0x01?0:1)));
     flag=IIC_Ack2Master();
     if(flag==IIC_TIME_OUT)
     {
@@ -310,4 +310,18 @@ bool IIC_C::IICTranByte(byte data)
 
     IIC_Stop();
     return flag;
+}
+
+
+/**
+ * Funcation Name:setSlaveAdd
+ * Para:
+ *      byte    slaveAdd    从机地址
+ * Result:void
+ * Funcation description:
+ * 更改通讯从机地址
+*/
+void IIC_C::setSlaveAdd(byte slaveAdd)
+{
+    this->IIC_Slave_Address=slaveAdd<<1;
 }

@@ -22,16 +22,17 @@
 class IIC_C
 {
     public:
-        IIC_C(byte TranslateType,PinNum scl,PinNum sda,bool READValue,byte SalveAdd);
+        IIC_C(byte TranslateType,PinNum scl,PinNum sda,bool READValue,byte SlaveAdd);
         bool IICTranByte(byte data);
         bool IICRecvByte(byte *data);
+        void setSlaveAdd(byte address);
     private:
         void (IIC_C::*IIC_SendByte)(byte);
         void (IIC_C::*IIC_RecvByte)(byte*);
         bool IIC_Translate(byte data);
         bool IIC_Receive(byte *data);
         PinNum IIC_SCL,IIC_SDA;
-        byte IIC_Salve_Address;
+        byte IIC_Slave_Address;
         byte READ_INVALID;
         void IIC_Start();
         void IIC_Stop();
