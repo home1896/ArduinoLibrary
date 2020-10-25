@@ -58,6 +58,9 @@ void IIC_C::IIC_Start()
     CLR_SDA;
     delayUs(5);
     CLR_CLK;
+    #ifdef IIC_DEBUG
+      Serial.println("IIC infor:Send start signal to slave device.");
+    #endif
 }
 
 /**
@@ -73,6 +76,9 @@ void IIC_C::IIC_Stop()
     SET_CLK;
     delayUs(2);
     SET_SDA;
+    #ifdef IIC_DEBUG
+      Serial.println("IIC infor:Send stop signal to slave device.");
+    #endif
 }
 
 /**
@@ -88,6 +94,9 @@ bool IIC_C::IIC_Ack2Slave()
     SET_CLK;
     delayUs(25);
     CLR_CLK;
+    #ifdef IIC_DEBUG
+      Serial.println("IIC infor:Send ACK signal to slave device.");
+    #endif
     return true;
 }
 
@@ -114,8 +123,8 @@ bool IIC_C::IIC_Ack2Master()
     CLR_CLK;
     pinModeOut(IIC_SDA);
     #ifdef IIC_DEBUG
-    if(flag==IIC_TIME_OUT) Serial.println("Time Out!");
-    else Serial.println("Success");
+    if(flag==IIC_TIME_OUT) Serial.println("IIC infor:Slave device timed Out!");
+    else Serial.println("IIC infor:Slave device operate successed!");
     #endif
     return flag;
 }
@@ -131,7 +140,7 @@ bool IIC_C::IIC_Ack2Master()
 void IIC_C::IIC_Read_MSB(byte *data)
 {
     #ifdef IIC_DEBUG
-        Serial.println("MSB_READ_START");
+        Serial.println("IIC infor:MSB_READ_START");
     #endif
     CLR_CLK;
     pinModeIN(IIC_SDA);
@@ -145,13 +154,17 @@ void IIC_C::IIC_Read_MSB(byte *data)
         recv=(recv<<1)|rbit;
         CLR_CLK;
         #ifdef IIC_DEBUG
-            Serial.println(rbit);
+          if(count==7)
+            Serial.print("IIC data:");
+          Serial.print(rbit);
+          if(count==0)
+            Serial.println();
         #endif
     }
     *data=recv;
     pinModeOut(IIC_SDA);
     #ifdef IIC_DEBUG
-        Serial.println("MSB_READ_END");
+        Serial.println("IIC infor:MSB_READ_END");
     #endif
     return;
 }
@@ -166,7 +179,7 @@ void IIC_C::IIC_Read_MSB(byte *data)
 void IIC_C::IIC_Write_MSB(byte data)
 {
     #ifdef IIC_DEBUG
-    Serial.println("MSB_WRITE_START");
+    Serial.println("IIC infor:MSB_WRITE_START");
     #endif
     CLR_CLK;
     byte count=8,sbit=0;
@@ -180,11 +193,15 @@ void IIC_C::IIC_Write_MSB(byte data)
         delayUs(2);
         CLR_CLK;
         #ifdef IIC_DEBUG
-        Serial.println(sbit);
+        if(count==7)
+          Serial.print("IIC data:");
+        Serial.print(sbit);
+        if(count==0)
+          Serial.println();
         #endif
     }
     #ifdef IIC_DEBUG
-       Serial.println("MSB_WRITE_END");
+       Serial.println("IIC infor:MSB_WRITE_END");
     #endif
     return;
 }
@@ -200,7 +217,7 @@ void IIC_C::IIC_Write_MSB(byte data)
 void IIC_C::IIC_Read_LSB(byte *data)
 {
     #ifdef IIC_DEBUG
-        Serial.println("LSB_REDA");
+        Serial.println("IIC infor:LSB_REDA");
     #endif
     CLR_CLK;
     pinModeIN(IIC_SDA);
@@ -215,13 +232,17 @@ void IIC_C::IIC_Read_LSB(byte *data)
         recv>>=1;
         CLR_CLK;
         #ifdef IIC_DEBUG
-        Serial.println(recv);
+        if(count==7)
+          Serial.print("IIC data:");
+        Serial.print(rbit);
+        if(count==0)
+          Serial.println();
         #endif
     }
     *data=recv;
     pinModeOut(IIC_SDA);
     #ifdef IIC_DEBUG
-        Serial.println("LSB_READ_END");
+        Serial.println("IIC infor:LSB_READ_END");
     #endif
     return;
 }
@@ -236,7 +257,7 @@ void IIC_C::IIC_Read_LSB(byte *data)
 void IIC_C::IIC_Write_LSB(byte data)
 {
     #ifdef IIC_DEBUG
-        Serial.println("LSB_WRITE_START");
+        Serial.println("IIC infor:LSB_WRITE_START");
     #endif
     CLR_CLK;
     byte count=8,sbit=0;
@@ -250,11 +271,15 @@ void IIC_C::IIC_Write_LSB(byte data)
         delayUs(2);
         CLR_CLK;
         #ifdef IIC_DEBUG
-        Serial.println(sbit);
+        if(count==7)
+          Serial.print("IIC data:");
+        Serial.print(sbit);
+        if(count==0)
+          Serial.println();
         #endif
     }
     #ifdef IIC_DEBUG
-        Serial.println("LSB_WRITE_END");
+        Serial.println("IIC infor:LSB_WRITE_END");
     #endif
     return;
 }
