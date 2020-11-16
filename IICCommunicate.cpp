@@ -234,7 +234,7 @@ bool IIC_C::IIC_Ack2Slave()
  * Para:无
  * Result:true
  * Funcation description:
- * 向从机发送ACK信号
+ * 向从机发送NACK信号
 */
 bool IIC_C::IIC_NAck2Slave()
 {
@@ -244,6 +244,8 @@ bool IIC_C::IIC_NAck2Slave()
     CLR_CLK;
     return true;
 }
+
+
 
 /**
  * Funcation Name:IIC_Ack2Master
@@ -410,7 +412,7 @@ bool IIC_C::IICRecvByte(byte *data)
     
     (this->*IIC_C::IIC_RecvByte)(data);
 
-    IIC_Ack2Master();
+    IIC_NAck2Slave();//这里表示该元件无需发送下一个字节，如果发送ACK信号，会接着返回下一个字节的数据
     
     IIC_Stop();
     return flag;

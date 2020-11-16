@@ -10,10 +10,9 @@
 #include"Arduino.h"
 
 
-#define IIC_DEBUG//调试开关
 
 
-//data type define by self
+//自定义变量类型
 #define PinNum unsigned char
 #define byte unsigned char
 
@@ -21,7 +20,7 @@
 #define LSB 1
 
 
-//Macro funcation
+//宏函数
 #define pinModeOut(PIN) pinMode(PIN,OUTPUT)
 #define pinModeIN(PIN) pinMode(PIN,INPUT)
 

@@ -1,7 +1,7 @@
 /**
  * Author:sedev_home1896@163.com
  * License:MPL V2.0
- * 注：该库只支持8bit的地址
+ * 注：该库只支持7bit的地址
 */
 
 
@@ -29,28 +29,28 @@ class IIC_C
         IIC_C(PinNum scl,PinNum sda,byte SlaveAdd);
         IIC_C(byte SlaveAdd);
         IIC_C();
-        bool IICTranByte(byte data);
-        bool IICRecvByte(byte *data);
+        bool virtual IICTranByte(byte data);
+        bool virtual IICRecvByte(byte *data);
         void setSlaveAdd(byte address);
         void setIICFreq(unsigned int);
-    private:
+        
+    protected://用于开发基于IIC通讯协议进行通讯的其他元件
         PinNum IIC_SCL,IIC_SDA;
         unsigned int delayTime;
-        void (IIC_C::*IIC_SendByte)(byte);
-        void (IIC_C::*IIC_RecvByte)(byte*);
-        bool IIC_Translate(byte data);
-        bool IIC_Receive(byte *data);
         byte IIC_Slave_Address;
-        byte READ_INVALID;
+        byte READ_INVALID;//设定读取信号是否为高电平
         void IIC_Start();
         void IIC_Stop();
         bool IIC_Ack2Slave();
-        bool IIC_NAck2Slave();
+        bool IIC_NAck2Slave();//在二次开发时需注意，某些IIC器件需要使用NACK信号使从设备停止数据发送，否则会时序混乱
         bool IIC_Ack2Master();
-        
+
+
+     private://基本操作，私有成员
+        void (IIC_C::*IIC_SendByte)(byte);
+        void (IIC_C::*IIC_RecvByte)(byte*);
         void IIC_Read_MSB(byte *data);
         void IIC_Write_MSB(byte data);
-
         void IIC_Read_LSB(byte *data);
         void IIC_Write_LSB(byte data);
 };
